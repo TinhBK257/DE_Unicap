@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 import math
 
-# Read product IDs from Excel file
+# Read product IDs
 df = pd.read_csv('tiki_product_IDs.csv')
 product_ids = df['id'].tolist()
 
@@ -33,7 +33,6 @@ def get_product_details(product_id):
     except:
         return None
 
-# Process products in batches of 1000
 batch_size = 1000
 total_batches = math.ceil(len(product_ids) / batch_size)
 
@@ -50,7 +49,7 @@ for batch_num in range(total_batches):
             batch_products.append(product_data)
         time.sleep(0.1)  # Add delay to avoid overwhelming the API
     
-    # Save batch to JSON file
+    # Save batch to JSON files
     if batch_products:
         output_file = output_dir / f'tiki_products_batch_{batch_num + 1}.json'
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -58,4 +57,4 @@ for batch_num in range(total_batches):
         
         print(f"Saved {len(batch_products)} products to {output_file}")
 
-print("Data collection completed")
+print("Data collection completed!")
